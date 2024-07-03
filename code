@@ -1,0 +1,49 @@
+// Algorithm for controlling servo motors to create walking motion
+
+// Initialize servo positions
+InitializeServoPositions()
+
+// Define walking gait sequence
+walkingGait = [
+    { leftLeg: { hip: 90, knee: 90, foot: 90 }, rightLeg: { hip: 90, knee: 90, foot: 90 } }, // Initial position
+    { leftLeg: { hip: 120, knee: 60, foot: 60 }, rightLeg: { hip: 60, knee: 120, foot: 120 } }, // Step forward
+    { leftLeg: { hip: 60, knee: 120, foot: 120 }, rightLeg: { hip: 120, knee: 60, foot: 60 } }, // Step backward
+    // Add more steps as needed
+]
+
+// Set movement speed
+movementDelay = 500 // milliseconds
+
+// Loop through the walking gait sequence indefinitely
+while (true) {
+    for each step in walkingGait {
+        MoveServo(leftHip, step.leftLeg.hip, movementDelay)
+        MoveServo(leftKnee, step.leftLeg.knee, movementDelay)
+        MoveServo(leftFoot, step.leftLeg.foot, movementDelay)
+        
+        MoveServo(rightHip, step.rightLeg.hip, movementDelay)
+        MoveServo(rightKnee, step.rightLeg.knee, movementDelay)
+        MoveServo(rightFoot, step.rightLeg.foot, movementDelay)
+        
+        // Add a delay to stabilize the position
+        Delay(movementDelay)
+    }
+}
+
+// Function to initialize servo positions
+function InitializeServoPositions() {
+    // Set initial positions for each servo
+    leftHip.moveTo(90)
+    leftKnee.moveTo(90)
+    leftFoot.moveTo(90)
+    
+    rightHip.moveTo(90)
+    rightKnee.moveTo(90)
+    rightFoot.moveTo(90)
+}
+
+// Function to move a servo to a specific position with a delay
+function MoveServo(servo, position, delayTime) {
+    servo.moveTo(position)
+    delay(delayTime)
+}
